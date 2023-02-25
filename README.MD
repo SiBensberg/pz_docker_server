@@ -1,4 +1,10 @@
 # Docker for project zomboid steam server
+This builds upon the steamcmd docker and lends some code from linuxgsm both under MIT license at the point of writing.
+
+```angular2html
+https://hub.docker.com/r/cm2network/steamcmd/
+https://github.com/GameServerManagers/LinuxGSM
+```
 
 ## Build
 ```angular2html
