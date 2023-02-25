@@ -6,5 +6,9 @@ docker build ./ -t pz_server_sb
 ```
 
 ## Run
-Simply use the provided `run_server.bash`
+- create `server-data folder`
+- open folder for writing
+- Simply use the provided `run_server.bash`
 
+## Debug
+For debugging there is the `debg.bash` which starts the container with an interactive shell.
