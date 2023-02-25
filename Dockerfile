@@ -23,6 +23,7 @@ ENV RCON_PORT=27015 \
 # Switch to root to use apt-get
 USER root
 RUN adduser --disabled-password linuxgsm
+RUN su - linuxgsm
 
 # Install dependencies
 RUN apt-get update && \
@@ -42,25 +43,30 @@ RUN [ -d /home/linuxgsm/Zomboid ] || mkdir -p /home/linuxgsm/Zomboid && \
     chown linuxgsm:linuxgsm /home/linuxgsm/serverfiles && \
     ln -s /home/linuxgsm/serverfiles /server-files
 
-RUN mkdir /opt/pzserver
+#RUN mkdir /opt/pzserver
 RUN chown linuxgsm:linuxgsm /home/linuxgsm/Zomboid
 
 COPY ./scripts/update_zomboid.txt /
 RUN chmod +x /*.txt
 
 USER linuxgsm
-RUN ./steamcmd.sh +runscript /update_zomboid.txt
+RUN bash /home/steam/steamcmd/steamcmd.sh +runscript /update_zomboid.txt
 
 USER root
 # Copy scripts
 COPY ./scripts/*.sh /
 RUN chmod +x /*.sh
 
+COPY container_start.sh /usr/local/bin/container_start.sh
+
+RUN chmod -R 777 /home/linuxgsm/Zomboid/*
+RUN chmod -R 777 /home/steam/steamcmd/*
+
 # Switch to the user
 USER linuxgsm
 
 #RUN ./home/linuxgsm/Zomboid/start-server.sh -servername berlin
-CMD ["./scripts/container_start.sh"]
+CMD ["/container_start.sh"]
 
 EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
 
