@@ -57,6 +57,7 @@ RUN chmod +x /*.sh
 USER steam
 RUN mkdir /home/steam/Zomboid
 RUN chown steam:steam /home/steam/Zomboid
+RUN chmod -R 777 /home/steam/Zomboid
 
 #COPY container_start.sh /usr/local/bin/container_start.sh
 
