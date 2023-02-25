@@ -43,7 +43,7 @@ RUN [ -d /home/linuxgsm/Zomboid ] || mkdir -p /home/linuxgsm/Zomboid && \
     ln -s /home/linuxgsm/serverfiles /server-files
 
 RUN mkdir /opt/pzserver
-RUN chown linuxgsm:linuxgsm /opt/pzserver
+RUN chown linuxgsm:linuxgsm /home/linuxgsm/Zomboid
 
 COPY ./scripts/update_zomboid.txt /
 RUN chmod +x /*.txt
@@ -59,7 +59,8 @@ RUN chmod +x /*.sh
 # Switch to the user
 USER linuxgsm
 
-CMD ["sh", "/home/linuxgsm/Zomboid/start-server.sh"]
+#RUN ./home/linuxgsm/Zomboid/start-server.sh -servername berlin
+CMD ["./scripts/container_start.sh"]
 
 EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
 
