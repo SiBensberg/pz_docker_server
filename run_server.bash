@@ -7,3 +7,5 @@ docker run -d -e SERVER_NAME="berlin" \
               --name pz_test \
               server_test
 
+                            #-v $(pwd)/pzserver:/opt/pzserver \
+

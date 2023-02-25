@@ -1,7 +1,4 @@
 FROM cm2network/steamcmd:latest as build_stage
-#FROM ubuntu
-ENV STEAMAPPID=380870
-ENV USER_NAME="linuxgsm"
 
 # Steam ports
 ENV RCON_PORT=27015 \
@@ -14,6 +11,7 @@ ENV RCON_PORT=27015 \
     SERVER_BRANCH="" \
     SERVER_BETA_PASSWORD="" \
     # Admin DB Password (required for the first launach)
+    ADMIN_USERNAME="test" \
     ADMIN_PASSWORD="pzserver-password" \
     # Server port
     SERVER_PORT=16261 \
@@ -22,8 +20,8 @@ ENV RCON_PORT=27015 \
 
 # Switch to root to use apt-get
 USER root
-RUN adduser --disabled-password linuxgsm
-RUN su - linuxgsm
+# RUN adduser --disabled-password linuxgsm
+#RUN su - linuxgsm
 
 # Install dependencies
 RUN apt-get update && \
@@ -36,34 +34,33 @@ RUN apt-get update && \
     rm -rf /var/tmp/*
 
 # Create server directories and link to access them
-RUN [ -d /home/linuxgsm/Zomboid ] || mkdir -p /home/linuxgsm/Zomboid && \
-    chown linuxgsm:linuxgsm /home/linuxgsm/Zomboid && \
-    ln -s /home/linuxgsm/Zomboid /server-data && \
-    [ -d /home/linuxgsm/serverfiles ] || mkdir -p /home/linuxgsm/serverfiles && \
-    chown linuxgsm:linuxgsm /home/linuxgsm/serverfiles && \
-    ln -s /home/linuxgsm/serverfiles /server-files
+#RUN [ -d /home/linuxgsm/Zomboid ] || mkdir -p /home/linuxgsm/Zomboid && \
+#    chown steam:steam /home/linuxgsm/Zomboid && \
+#    ln -s /home/linuxgsm/Zomboid /server-data && \
+#    [ -d /home/linuxgsm/serverfiles ] || mkdir -p /home/linuxgsm/serverfiles && \
+#    chown linuxgsm:linuxgsm /home/linuxgsm/serverfiles && \
+#    ln -s /home/linuxgsm/serverfiles /server-files
 
-#RUN mkdir /opt/pzserver
-RUN chown linuxgsm:linuxgsm /home/linuxgsm/Zomboid
+RUN mkdir /opt/pzserver
+RUN chown steam:steam /opt/pzserver
+RUN ln -s /opt/pzserver /server-data
+#RUN chown steam:steam /home/linuxgsm/Zomboid
 
 COPY ./scripts/update_zomboid.txt /
 RUN chmod +x /*.txt
 
-USER linuxgsm
-RUN bash /home/steam/steamcmd/steamcmd.sh +runscript /update_zomboid.txt
+#RUN bash /home/steam/steamcmd/steamcmd.sh +runscript /update_zomboid.txt
 
-USER root
 # Copy scripts
 COPY ./scripts/*.sh /
 RUN chmod +x /*.sh
 
-COPY container_start.sh /usr/local/bin/container_start.sh
+USER steam
 
-RUN chmod -R 777 /home/linuxgsm/Zomboid/*
-RUN chmod -R 777 /home/steam/steamcmd/*
+#COPY container_start.sh /usr/local/bin/container_start.sh
 
 # Switch to the user
-USER linuxgsm
+#USER steam
 
 #RUN ./home/linuxgsm/Zomboid/start-server.sh -servername berlin
 CMD ["/container_start.sh"]
@@ -71,7 +68,7 @@ CMD ["/container_start.sh"]
 EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
 
 # Persistant folder with server data : /server-data
-VOLUME ["/server-data", "/server-files"]
+VOLUME ["server-data"]
 
 
 
