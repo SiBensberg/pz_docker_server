@@ -12,7 +12,7 @@ docker build ./ -t pz_server_sb
 ```
 
 ## Run
-- create `server-data folder`
+- create `server-data` and `Zomboid` folder
 - open folder for writing
 - Simply use the provided `run_server.bash`
 
