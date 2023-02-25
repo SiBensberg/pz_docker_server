@@ -4,8 +4,6 @@ docker run -d -e SERVER_NAME="berlin" \
               -v $(pwd)/server-data:/server-data \
               -p 16261:16261/udp \
               -p 16262:16262/udp \
-              --name pz_test \
-              server_test
-
-                            #-v $(pwd)/pzserver:/opt/pzserver \
+              --name pz_server_sb \
+              pz_serv_sb
 
