@@ -59,7 +59,7 @@ RUN chmod +x /*.sh
 # Switch to the user
 USER linuxgsm
 
-ENTRYPOINT ["sh", "/home/linuxgsm/Zomboid/start-server.sh"]
+CMD ["sh", "/home/linuxgsm/Zomboid/start-server.sh"]
 
 EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
 
