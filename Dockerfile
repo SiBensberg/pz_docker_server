@@ -44,7 +44,6 @@ RUN apt-get update && \
 RUN mkdir /opt/pzserver
 RUN chown steam:steam /opt/pzserver
 RUN ln -s /opt/pzserver /server-data
-#RUN chown steam:steam /home/linuxgsm/Zomboid
 
 COPY ./scripts/update_zomboid.txt /
 RUN chmod +x /*.txt
@@ -56,6 +55,8 @@ COPY ./scripts/*.sh /
 RUN chmod +x /*.sh
 
 USER steam
+RUN mkdir /home/steam/Zomboid
+RUN chown steam:steam /home/steam/Zomboid
 
 #COPY container_start.sh /usr/local/bin/container_start.sh
 
@@ -68,7 +69,7 @@ CMD ["/container_start.sh"]
 EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
 
 # Persistant folder with server data : /server-data
-VOLUME ["server-data"]
+VOLUME ["server-data", "/home/steam/Zomboid"]
 
 
 
