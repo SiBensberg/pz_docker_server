@@ -43,7 +43,7 @@ RUN apt-get update && \
 #    ln -s /home/linuxgsm/serverfiles /server-files
 
 RUN mkdir /opt/pzserver
-RUN chown steam:steam /opt/pzserver
+RUN chown -R steam:steam /opt/pzserver
 RUN ln -s /opt/pzserver /server-data
 
 COPY ./scripts/update_zomboid.txt /
@@ -57,8 +57,12 @@ RUN chmod +x /*.sh
 
 USER steam
 RUN mkdir /home/steam/Zomboid
-RUN chown steam:steam /home/steam/Zomboid
+RUN chown -R steam:steam /home/steam/Zomboid
+
+USER root
 RUN chmod -R 777 /home/steam/Zomboid
+
+USER steam
 
 #COPY container_start.sh /usr/local/bin/container_start.sh
 
