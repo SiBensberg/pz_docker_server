@@ -5,7 +5,7 @@ docker run -d -e SERVER_NAME="berlin" \
               -v $(pwd)/Zomboid:/home/steam/Zomboid \
               -p 16261:16261/udp \
               -p 16262:16262/udp \
-              -p 16261:16265 \
+              -p 16261-16265:16261-16265 \
               --name pz_serv_sb \
               pz_server_sb
 
