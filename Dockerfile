@@ -16,7 +16,8 @@ ENV RCON_PORT=27015 \
     # Server port
     SERVER_PORT=16261 \
     # Newer Project Zomboid server version needs ..61 and ..62 as udp ports below ports are probably unnecessary now
-    SERVER_PORT_S=16262
+    SERVER_PORT_S=16262 \
+    PLAYER_PORTS=16261-16265
 
 # Switch to root to use apt-get
 USER root
@@ -67,7 +68,7 @@ RUN chmod -R 777 /home/steam/Zomboid
 #RUN ./home/linuxgsm/Zomboid/start-server.sh -servername berlin
 CMD ["/container_start.sh"]
 
-EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT}
+EXPOSE ${SERVER_PORT}/udp ${SERVER_PORT_S}/udp ${RCON_PORT} ${PLAYER_PORTS}
 
 # Persistant folder with server data : /server-data
 VOLUME ["server-data", "/home/steam/Zomboid"]
